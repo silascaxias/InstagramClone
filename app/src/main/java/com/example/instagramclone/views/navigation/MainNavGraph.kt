@@ -58,6 +58,11 @@ fun NavGraphBuilder.mainNavGraph(
 			route = AppScreen.Main.EDIT_PROFILE.route
 		) {
 			EditProfileScreen(
+				navigateToAuth = {
+					navController.navigate(AppScreen.Auth.route) {
+						popUpTo(AppScreen.Main.route) {  inclusive = true }
+					}
+				},
 				navigateToProfile = {
 					navController.popBackStack()
 				},
