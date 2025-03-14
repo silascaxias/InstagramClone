@@ -2,16 +2,14 @@ package com.example.instagramclone
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -30,8 +28,8 @@ class MainActivity : ComponentActivity() {
 		setContent {
 			InstagramCloneTheme {
 				Surface(
-					//color = MaterialTheme.colorScheme.background,
 					modifier = Modifier
+						.background(MaterialTheme.colorScheme.primary)
 						.fillMaxSize()
 						.statusBarsPadding()
 						.systemBarsPadding(),

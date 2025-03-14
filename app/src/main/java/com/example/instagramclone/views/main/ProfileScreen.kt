@@ -28,6 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.instagramclone.R
 import com.example.instagramclone.viewmodel.InstagramViewModel
+import com.example.instagramclone.views.common.LoadingProgressIndicator
 import com.example.instagramclone.views.common.UserImageCard
 import com.example.instagramclone.views.navigation.AppScreen
 
@@ -112,6 +113,9 @@ fun ProfileScreen(
 			selectedItem = BottomNavigationItem.PROFILE,
 			navigateToDestination = navigateToDestination
 		)
+	}
+	if (isLoading) {
+		LoadingProgressIndicator()
 	}
 }
 

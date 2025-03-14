@@ -33,16 +33,3 @@ fun RootNavGraph(
 		)
 	}
 }
-
-@Composable
-fun CheckSignedIn(
-	navHostController: NavController,
-	viewModel: InstagramViewModel
-) {
-	val alreadySignedIn = remember { mutableStateOf(false) }
-	val signedIn = viewModel.signedIn.value
-	if (signedIn && !alreadySignedIn.value) {
-		alreadySignedIn.value = true
-		navHostController.navigate(AppScreen.Main.route)
-	}
-}

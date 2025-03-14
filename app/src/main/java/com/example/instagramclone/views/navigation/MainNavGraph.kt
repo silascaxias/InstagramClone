@@ -26,7 +26,7 @@ fun NavGraphBuilder.mainNavGraph(
 	}
 	
 	navigation(
-		startDestination = AppScreen.Main.FEED.route,
+		startDestination = AppScreen.Main.PROFILE.route,
 		route = AppScreen.Main.route,
 	) {
 		composable(
