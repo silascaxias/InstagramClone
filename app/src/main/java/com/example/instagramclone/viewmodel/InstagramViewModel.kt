@@ -8,8 +8,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
 import com.google.firebase.storage.FirebaseStorage
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 
 /**
  * InstagramViewModel
@@ -21,9 +19,8 @@ import javax.inject.Inject
 
 const val USERS = "users"
 
-@HiltViewModel
-class InstagramViewModel @Inject constructor(
-	val auth: FirebaseAuth, val db: FirebaseFirestore, val storage: FirebaseStorage
+class InstagramViewModel (
+	private val auth: FirebaseAuth, private val db: FirebaseFirestore, private val storage: FirebaseStorage
 ) : ViewModel() {
 	
 	val signedIn = mutableStateOf(false)

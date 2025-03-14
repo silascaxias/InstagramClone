@@ -3,7 +3,6 @@ package com.example.instagramclone.views.common
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.instagramclone.viewmodel.InstagramViewModel
 
 /**

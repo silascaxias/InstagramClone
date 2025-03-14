@@ -1,5 +1,6 @@
 package com.example.instagramclone.views.navigation
 
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -23,7 +24,11 @@ fun NavGraphBuilder.mainNavGraph(
 	viewModel: InstagramViewModel
 ) {
 	val navigateToDestination: (AppScreen) -> Unit = { destination: AppScreen ->
-		navController.navigate(destination.route)
+		navController.navigate(destination.route) {
+			popUpTo(navController.currentDestination?.route.toString()) {
+				inclusive = true
+			}
+		}
 	}
 	
 	navigation(

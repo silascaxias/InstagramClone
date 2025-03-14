@@ -1,6 +1,6 @@
 # Instagram Clone
 
-This is an Instagram clone project, built using Jetpack Compose, Hilt, Navigation Compose, and other modern Android development technologies. The goal is to replicate the interface and some functionalities of the Instagram application, serving as a study and portfolio project.
+This is an Instagram clone project, built using Jetpack Compose, Koin, Navigation Compose, and other modern Android development technologies. The goal is to replicate the interface and some functionalities of the Instagram application, serving as a study and portfolio project.
 
 **Firebase Integration**
 
@@ -50,10 +50,8 @@ The project utilizes the following libraries and tools:
     -   `androidx.navigation:navigation-compose`
     -   For navigation between different screens of the application.
 
--   **Hilt (Dependency Injection):**
-    -   `com.google.dagger:hilt-android`
-    -   `androidx.hilt:hilt-navigation-compose`
-    -   `com.google.dagger:hilt-android-compiler`
+-   **Koin (Dependency Injection):**
+    -   `implementation libs.koin.androidx.compose`
     -   For dependency injection, facilitating code organization and testing.
 
 -   **Coil (Image Loading):**
@@ -71,7 +69,7 @@ The project utilizes the following libraries and tools:
     -   For user authentication, image storage, and user data storage.
 
 -   **Accompanist System UI Controller**:
-    -   `com.google.accompanist:accompanist-systemuicontroller:0.27.0`
+    -   `"io.insert-koin:koin-androidx-compose`
     -   Responsible for changing the status bar color.
 
 -   **Other Dependencies:**

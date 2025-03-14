@@ -1,7 +1,10 @@
 package com.example.instagramclone
 
 import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
+import com.example.instagramclone.di.appModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 
 /**
  * InstagramCloneApplication
@@ -11,5 +14,14 @@ import dagger.hilt.android.HiltAndroidApp
  *
  **/
 
-@HiltAndroidApp
-class InstagramCloneApplication: Application()
+class InstagramCloneApplication: Application() {
+	override fun onCreate() {
+		super.onCreate()
+		
+		startKoin {
+			androidLogger()
+			androidContext(this@InstagramCloneApplication)
+			modules(appModule)
+		}
+	}
+}

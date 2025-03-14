@@ -33,7 +33,9 @@ fun NavGraphBuilder.authNavGraph(
 			)
 			LoginScreen(
 				navigateToSignUp = {
-					navController.navigate(AppScreen.Auth.Register.route)
+					navController.navigate(AppScreen.Auth.Register.route) {
+						launchSingleTop = true
+					}
 				},
 				viewModel = viewModel
 			)
