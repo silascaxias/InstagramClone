@@ -2,15 +2,14 @@ package com.example.instagramclone.views.auth
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -28,7 +27,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.instagramclone.R
-import com.example.instagramclone.components.LoadingProgressIndicator
+import com.example.instagramclone.views.common.LoadingProgressIndicator
 import com.example.instagramclone.viewmodel.InstagramViewModel
 
 /**
@@ -45,14 +44,15 @@ fun LoginScreen(
 	viewModel: InstagramViewModel
 ) {
 	Box(
-		modifier = Modifier.fillMaxSize()
+		modifier =
+			Modifier.imePadding(),
 	) {
 		Column(
 			modifier = Modifier
 				.fillMaxWidth()
-				.wrapContentHeight()
-				.verticalScroll(rememberScrollState()),
-			horizontalAlignment = Alignment.CenterHorizontally
+				.fillMaxHeight(),
+			horizontalAlignment = Alignment.CenterHorizontally,
+			verticalArrangement = Arrangement.Center
 		) {
 			val email = remember { mutableStateOf(TextFieldValue()) }
 			val password = remember { mutableStateOf(TextFieldValue()) }
@@ -98,7 +98,7 @@ fun LoginScreen(
 					)
 				}
 			) {
-				Text(text = "Login")
+				Text(text = "LOGIN")
 			}
 			Text(
 				text = "New here? Go to Sign Up ->",

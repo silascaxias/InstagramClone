@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.instagramclone.ui.theme.InstagramCloneTheme
@@ -29,8 +30,6 @@ class MainActivity : ComponentActivity() {
 					color = MaterialTheme.colorScheme.background,
 					modifier = Modifier
 						.fillMaxSize()
-						.statusBarsPadding()
-						.navigationBarsPadding()
 				) {
 					val viewModel = hiltViewModel<InstagramViewModel>()
 					NotificationMessage(viewModel = viewModel)
