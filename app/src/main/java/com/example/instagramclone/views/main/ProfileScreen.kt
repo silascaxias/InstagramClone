@@ -87,7 +87,9 @@ fun ProfileScreen(
 				Text(text = userData?.bio ?: "")
 			}
 			OutlinedButton(
-				onClick = {},
+				onClick = {
+					navigateToDestination(AppScreen.Main.EDIT_PROFILE)
+				},
 				modifier = Modifier
 					.padding(8.dp)
 					.fillMaxWidth(),

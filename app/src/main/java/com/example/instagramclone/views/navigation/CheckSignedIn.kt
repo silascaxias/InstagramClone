@@ -23,6 +23,8 @@ fun CheckSignedIn(
 	val signedIn = viewModel.signedIn.value
 	if (signedIn && !alreadySignedIn.value) {
 		alreadySignedIn.value = true
-		navHostController.navigate(AppScreen.Main.route)
+		navHostController.navigate(AppScreen.Main.route) {
+			popUpTo(AppScreen.Auth.route) {  inclusive = true }
+		}
 	}
 }

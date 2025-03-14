@@ -21,8 +21,8 @@ fun NavGraphBuilder.authNavGraph(
 	viewModel: InstagramViewModel
 ) {
 	navigation(
-		route = AppScreen.Auth.route,
 		startDestination = AppScreen.Auth.Login.route,
+		route = AppScreen.Auth.route
 	) {
 		composable(
 			route = AppScreen.Auth.Login.route

@@ -96,7 +96,7 @@ class InstagramViewModel @Inject constructor(
 			}
 	}
 	
-	private fun createOrUpdateProfile(
+	fun createOrUpdateProfile(
 		name: String? = null,
 		username: String? = null,
 		bio: String? = null,

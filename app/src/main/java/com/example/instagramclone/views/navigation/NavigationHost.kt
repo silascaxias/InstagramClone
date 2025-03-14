@@ -1,13 +1,9 @@
 package com.example.instagramclone.views.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.example.instagramclone.viewmodel.InstagramViewModel
-import com.example.instagramclone.views.main.BottomNavigationBar
 
 /**
  * NavigationHost

@@ -19,6 +19,7 @@ private object Routes {
 	const val FEED = "feed"
 	const val PROFILE = "profile"
 	const val SEARCH = "search"
+	const val EDIT_PROFILE = "edit_profile"
 }
 
 sealed class AppScreen(val route: String) {
@@ -31,5 +32,6 @@ sealed class AppScreen(val route: String) {
 		data object FEED : AppScreen(Routes.FEED)
 		data object PROFILE : AppScreen(Routes.PROFILE)
 		data object SEARCH : AppScreen(Routes.SEARCH)
+		data object EDIT_PROFILE : AppScreen(Routes.EDIT_PROFILE)
 	}
 }

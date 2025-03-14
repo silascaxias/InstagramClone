@@ -31,7 +31,6 @@ class MainActivity : ComponentActivity() {
 					modifier = Modifier
 						.background(MaterialTheme.colorScheme.primary)
 						.fillMaxSize()
-						.statusBarsPadding()
 						.systemBarsPadding(),
 				) {
 					val viewModel = hiltViewModel<InstagramViewModel>()

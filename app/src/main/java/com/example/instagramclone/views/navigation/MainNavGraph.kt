@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.instagramclone.viewmodel.InstagramViewModel
+import com.example.instagramclone.views.main.EditProfileScreen
 import com.example.instagramclone.views.main.FeedScreen
 import com.example.instagramclone.views.main.ProfileScreen
 import com.example.instagramclone.views.main.SearchScreen
@@ -50,6 +51,16 @@ fun NavGraphBuilder.mainNavGraph(
 		) {
 			ProfileScreen(
 				navigateToDestination = navigateToDestination,
+				viewModel = viewModel
+			)
+		}
+		composable(
+			route = AppScreen.Main.EDIT_PROFILE.route
+		) {
+			EditProfileScreen(
+				navigateToProfile = {
+					navController.popBackStack()
+				},
 				viewModel = viewModel
 			)
 		}
