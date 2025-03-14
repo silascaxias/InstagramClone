@@ -17,6 +17,8 @@ private object Routes {
 	// Main Graph Routes
 	const val MAIN = "main"
 	const val FEED = "feed"
+	const val PROFILE = "profile"
+	const val SEARCH = "search"
 }
 
 sealed class AppScreen(val route: String) {
@@ -26,6 +28,8 @@ sealed class AppScreen(val route: String) {
 	}
 	
 	data object Main : AppScreen(Routes.MAIN) {
-		data object Feed : AppScreen(Routes.FEED)
+		data object FEED : AppScreen(Routes.FEED)
+		data object PROFILE : AppScreen(Routes.PROFILE)
+		data object SEARCH : AppScreen(Routes.SEARCH)
 	}
 }

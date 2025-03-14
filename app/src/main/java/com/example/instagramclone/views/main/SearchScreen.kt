@@ -7,20 +7,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
 import com.example.instagramclone.ui.theme.InstagramCloneTheme
 import com.example.instagramclone.viewmodel.InstagramViewModel
 import com.example.instagramclone.views.navigation.AppScreen
 
 /**
- * FeedScreen
+ * SearchScreen
  * InstagramClone
  *
- ** Created by Silas S. Caxias on 3/13/2025.
+ ** Created by Silas S. Caxias on 3/14/2025.
  *
  **/
 
 @Composable
-fun FeedScreen(
+fun SearchScreen(
 	navigateToDestination: (AppScreen) -> Unit, viewModel: InstagramViewModel
 ) {
 	Column(
@@ -29,10 +30,11 @@ fun FeedScreen(
 		Column(
 			modifier = Modifier.weight(1f)
 		) {
-			Text(text = "Feed Screen")
+			Text(text = "Search Screen")
 		}
 		BottomNavigationBar(
-			selectedItem = BottomNavigationItem.FEED, navigateToDestination = navigateToDestination
+			selectedItem = BottomNavigationItem.SEARCH,
+			navigateToDestination = navigateToDestination
 		)
 	}
 }

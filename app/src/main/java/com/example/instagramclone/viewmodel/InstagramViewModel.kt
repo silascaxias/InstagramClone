@@ -84,9 +84,6 @@ class InstagramViewModel @Inject constructor(
 					auth.currentUser?.uid?.let { uid ->
 						getUserData(uid)
 					}
-					handleException(
-						customMessage = "Login Success!"
-					)
 				} else {
 					handleException(
 						exception = task.exception, customMessage = "Login Error!"
@@ -135,6 +132,7 @@ class InstagramViewModel @Inject constructor(
 					}
 					getUserData(it)
 					isLoading.value = false
+					signedIn.value = true
 				}
 			}.addOnFailureListener { exception ->
 				handleException(exception = exception, customMessage = "Can't create user.")

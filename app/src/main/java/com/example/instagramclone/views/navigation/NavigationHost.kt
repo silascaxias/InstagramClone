@@ -7,6 +7,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.example.instagramclone.viewmodel.InstagramViewModel
+import com.example.instagramclone.views.main.BottomNavigationBar
 
 /**
  * NavigationHost

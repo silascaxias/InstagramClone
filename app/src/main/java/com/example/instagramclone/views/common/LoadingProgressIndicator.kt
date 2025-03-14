@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 /**
@@ -24,7 +25,7 @@ import androidx.compose.ui.unit.dp
  **/
 
 @Composable
-fun LoadingProgressIndicator() {
+fun LoadingProgressIndicator(width: Dp = 64.dp) {
 	Row(
 		modifier = Modifier
 			.alpha(0.7f)
@@ -35,7 +36,7 @@ fun LoadingProgressIndicator() {
 		verticalAlignment = Alignment.CenterVertically
 	) {
 		CircularProgressIndicator(
-			modifier = Modifier.width(64.dp),
+			modifier = Modifier.width(width),
 			color = MaterialTheme.colorScheme.secondary,
 			trackColor = MaterialTheme.colorScheme.surfaceVariant,
 		)
