@@ -1,12 +1,11 @@
 package com.example.instagramclone.di
 
-import com.example.instagramclone.database.InstagramCloneDatabase
-import com.example.instagramclone.database.StoreManager
-import com.example.instagramclone.repository.UserRepository
+import com.example.instagramclone.data.local.InstagramCloneDatabase
+import com.example.instagramclone.data.local.StoreManager
+import com.example.instagramclone.data.repository.UserRepository
 import com.example.instagramclone.viewmodel.InstagramViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.singleOf
-import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 

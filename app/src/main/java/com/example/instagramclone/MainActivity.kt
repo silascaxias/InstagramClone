@@ -13,8 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.example.instagramclone.ui.theme.InstagramCloneTheme
 import com.example.instagramclone.viewmodel.InstagramViewModel
-import com.example.instagramclone.views.common.NotificationMessage
-import com.example.instagramclone.views.navigation.RootNavGraph
+import com.example.instagramclone.ui.screens.common.NotificationMessage
+import com.example.instagramclone.ui.navigation.RootNavGraph
 import org.koin.androidx.compose.koinViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

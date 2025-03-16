@@ -3,9 +3,9 @@ package com.example.instagramclone.viewmodel
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.instagramclone.model.Event
-import com.example.instagramclone.model.User
-import com.example.instagramclone.repository.UserRepository
+import com.example.instagramclone.data.model.Event
+import com.example.instagramclone.data.model.User
+import com.example.instagramclone.data.repository.UserRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
