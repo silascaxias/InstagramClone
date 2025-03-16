@@ -2,14 +2,6 @@
 
 This is an Instagram clone project, built using Jetpack Compose, Koin, Navigation Compose, and other modern Android development technologies. The goal is to replicate the interface and some functionalities of the Instagram application, serving as a study and portfolio project.
 
-**Firebase Integration**
-
-This project uses Firebase for the following functionalities:
-
--   **Authentication:** Firebase Authentication is used to manage user sign-up and sign-in securely.
--   **Image Storage:** Firebase Storage is used to store user profile pictures and post images.
--   **User Information Storage:** Firebase Firestore is used to store user data and profile information.
-
 ## Implemented Screens
 
 This project already has the following screens implemented:
@@ -58,16 +50,11 @@ The project utilizes the following libraries and tools:
     -   `io.coil-kt:coil-compose`
     -   For efficient image loading.
 
--   **Firebase:**
-    - `com.google.firebase:firebase-firestore`
-    - `com.google.firebase:firebase-storage`
-    - `com.google.firebase:firebase-auth`
-    - `com.google.firebase:firebase-bom`
-    - `com.google.firebase:firebase-auth-ktx`
-    - `com.google.firebase:firebase-firestore-ktx`
-    - `com.google.firebase:firebase-storage-ktx`
-    -   For user authentication, image storage, and user data storage.
-
+-   **Room:**
+    - `androidx.room:room-runtime`
+    - `androidx.room:room-compiler`
+    - `androidx.room:room-ktx`
+      
 -   **Accompanist System UI Controller**:
     -   `"io.insert-koin:koin-androidx-compose`
     -   Responsible for changing the status bar color.
@@ -78,6 +65,34 @@ The project utilizes the following libraries and tools:
     -   `junit:junit`
     -   `androidx.test.ext:junit`
     -   `androidx.test.espresso:espresso-core`
+ 
+## Project Structure (MVVM)
+
+```bash
+│── data/                # Data layer
+│   ├── local/           # Local database (Room)
+│   │   ├── dao/         # DAOs (Data Access Objects)
+│   │   ├── AppDatabase.kt
+│   ├── repository/      # Repositories (interface between data sources and ViewModel)
+│   ├── model/           # Data models (DTOs or structures separate from Room entities)
+│
+│── di/                  # Dependency Injection (Koin)
+│   ├── AppModule.kt     # Koin modules (ViewModels, Repositories, etc.)
+│
+│── ui/                  # UI layer
+│   ├── components/      # Reusable Jetpack Compose components
+│   ├── screens/         # Application screens
+│   │   ├── home/        # Example screen
+│   │   ├── login/       # Another screen
+│   │   ├── profile/
+│   ├── navigation/      # Jetpack Navigation Compose configuration
+│
+│── viewmodel/           # ViewModels (intermediary between UI and data)
+│
+│── utils/               # Utility functions and extensions
+│── MainActivity.kt
+│── MyApp.kt             # Root Composable of the application
+```
 
 ## Setup
 
