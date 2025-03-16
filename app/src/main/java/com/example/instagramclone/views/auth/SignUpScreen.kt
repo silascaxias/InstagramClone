@@ -54,6 +54,7 @@ fun SignUpScreen(
 			verticalArrangement = Arrangement.Center
 		) {
 			
+			val name = remember { mutableStateOf(TextFieldValue()) }
 			val userName = remember { mutableStateOf(TextFieldValue()) }
 			val email = remember { mutableStateOf(TextFieldValue()) }
 			val password = remember { mutableStateOf(TextFieldValue()) }
@@ -72,6 +73,13 @@ fun SignUpScreen(
 				modifier = Modifier.padding(8.dp),
 				fontSize = 30.sp,
 				fontFamily = FontFamily.SansSerif
+			)
+			OutlinedTextField(
+				value = name.value,
+				onValueChange = { name.value = it },
+				modifier = Modifier
+					.padding(8.dp),
+				label = { Text(text = "Name") }
 			)
 			OutlinedTextField(
 				value = userName.value,
@@ -100,6 +108,7 @@ fun SignUpScreen(
 				onClick = {
 					focus.clearFocus(force = true)
 					viewModel.onSignUp(
+						name.value.text,
 						userName.value.text,
 						email.value.text,
 						password.value.text

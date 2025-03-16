@@ -1,5 +1,6 @@
 package com.example.instagramclone.views.navigation
 
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -55,6 +56,9 @@ fun NavGraphBuilder.mainNavGraph(
 			route = AppScreen.Main.PROFILE.route
 		) {
 			ProfileScreen(
+				navigateToEditProfile = {
+					navController.navigate(AppScreen.Main.EDIT_PROFILE.route)
+				},
 				navigateToDestination = navigateToDestination,
 				viewModel = viewModel
 			)
@@ -71,7 +75,8 @@ fun NavGraphBuilder.mainNavGraph(
 				navigateToProfile = {
 					navController.popBackStack()
 				},
-				viewModel = viewModel
+				viewModel = viewModel,
+				context = LocalContext.current
 			)
 		}
 	}

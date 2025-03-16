@@ -1,6 +1,8 @@
 package com.example.instagramclone.views.common
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -22,8 +24,7 @@ import coil.request.ImageRequest
 @Composable
 fun CommonImage(
 	data: String?,
-	modifier: Modifier = Modifier.wrapContentSize(),
-	contentScale: ContentScale = ContentScale.Crop
+	contentScale: ContentScale = ContentScale.FillWidth
 ) {
 	val painter = rememberAsyncImagePainter(
 		model = ImageRequest.Builder(LocalContext.current)
@@ -37,7 +38,7 @@ fun CommonImage(
 		Image(
 			painter = painter,
 			contentDescription = null,
-			modifier = modifier,
+			modifier = Modifier.fillMaxSize(),
 			contentScale = contentScale
 		)
 	}

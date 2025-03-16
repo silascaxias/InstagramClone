@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.instagramclone.R
 import com.example.instagramclone.viewmodel.InstagramViewModel
@@ -42,9 +43,11 @@ import com.example.instagramclone.views.navigation.AppScreen
 
 @Composable
 fun ProfileScreen(
-	navigateToDestination: (AppScreen) -> Unit, viewModel: InstagramViewModel
+	navigateToDestination: (AppScreen) -> Unit,
+	viewModel: InstagramViewModel,
+	navigateToEditProfile: () -> Unit
 ) {
-	val userData = viewModel.userData.value
+	val userData = viewModel.user.value
 	val isLoading = viewModel.isLoading.value
 	
 	Column {
@@ -54,9 +57,13 @@ fun ProfileScreen(
 				.padding(top = 12.dp, bottom = 12.dp)
 		) {
 			Row {
-				ProfileImage(imageUrl = userData?.imageUrl, onClick = {
-				
-				})
+				ProfileImage(
+					imageUrl = userData?.imageUrl,
+					width = 80.dp,
+					showAddIcon = true,
+					onClick = {
+					
+					})
 				Text(
 					text = "15\nposts",
 					modifier = Modifier
@@ -88,7 +95,7 @@ fun ProfileScreen(
 			}
 			OutlinedButton(
 				onClick = {
-					navigateToDestination(AppScreen.Main.EDIT_PROFILE)
+					navigateToEditProfile()
 				},
 				modifier = Modifier
 					.padding(8.dp)
@@ -123,33 +130,37 @@ fun ProfileScreen(
 
 @Composable
 fun ProfileImage(
-	imageUrl: String?, onClick: () -> Unit
+	imageUrl: String?,
+	onClick: () -> Unit,
+	width: Dp,
+	showAddIcon: Boolean
 ) {
 	Box(
 		modifier = Modifier
-			.padding(top = 16.dp)
 			.clickable { onClick() }
 	) {
 		UserImageCard(
 			imageUrl = imageUrl,
 			modifier = Modifier
 				.padding(8.dp)
-				.size(80.dp)
+				.size(width)
 		)
-		Card(
-			shape = CircleShape,
-			border = BorderStroke(width = 2.dp, color = Color.White),
-			modifier = Modifier
-				.size(32.dp)
-				.align(Alignment.BottomEnd)
-				.padding(bottom = 8.dp, end = 8.dp)
-		) {
-			Image(
-				painter = painterResource(id = R.drawable.ic_add),
-				contentDescription = null,
-				modifier = Modifier.background(Color.Blue),
-				colorFilter = ColorFilter.tint(Color.White)
-			)
+		if (showAddIcon) {
+			Card(
+				shape = CircleShape,
+				border = BorderStroke(width = 2.dp, color = Color.White),
+				modifier = Modifier
+					.size(32.dp)
+					.align(Alignment.BottomEnd)
+					.padding(bottom = 8.dp, end = 8.dp)
+			) {
+				Image(
+					painter = painterResource(id = R.drawable.ic_add),
+					contentDescription = null,
+					modifier = Modifier.background(Color.Blue),
+					colorFilter = ColorFilter.tint(Color.White)
+				)
+			}
 		}
 	}
 }
