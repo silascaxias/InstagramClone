@@ -1,6 +1,5 @@
 package com.example.instagramclone.viewmodel
 
-import android.database.sqlite.SQLiteConstraintException
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -56,17 +55,21 @@ class InstagramViewModel(
 					isLoading.value = false
 					signedIn.value = true
 				}
-			} catch (e: SQLiteConstraintException) {
-				if (e.message.toString().contains("users.username")) {
-					handleException("Username already exists.")
-				} else if (e.message.toString().contains("users.email")) {
-					handleException("Email already exists.")
-				} else {
-					handleException(e.message.toString())
-				}
+			} catch (exception: Exception) {
+				handleSqlException(exception = exception)
 				isLoading.value = false
 			}
 			
+		}
+	}
+	
+	private fun handleSqlException(exception: Exception) {
+		if (exception.message.toString().contains("users.username")) {
+			handleException("Username already exists.")
+		} else if (exception.message.toString().contains("users.email")) {
+			handleException("Email already exists.")
+		} else {
+			handleException(exception.message.toString())
 		}
 	}
 	
@@ -122,14 +125,19 @@ class InstagramViewModel(
 			
 			isLoading.value = true
 			viewModelScope.launch {
-				val result = async { userRepository.update(userToUpdate) }
-				if (result.await() > 0) {
-					user.value = userToUpdate
-					onFinish()
-				} else {
-					handleException("Can't update user.")
+				try {
+					val result = userRepository.update(userToUpdate)
+					if (result > 0) {
+						user.value = userToUpdate
+						onFinish()
+					} else {
+						handleException("Can't update user.")
+					}
+					isLoading.value = false
+				} catch (exception: Exception) {
+					handleSqlException(exception = exception)
+					isLoading.value = false
 				}
-				isLoading.value = false
 			}
 		} ?: {
 			handleException("User not found!")
@@ -145,5 +153,9 @@ class InstagramViewModel(
 			async { userRepository.onLogout() }
 			signedIn.value = false
 		}
+	}
+	
+	fun onDestroy() {
+		userRepository.onDestroy()
 	}
 }

@@ -24,9 +24,7 @@ import com.example.instagramclone.views.navigation.AppScreen
 fun SearchScreen(
 	navigateToDestination: (AppScreen) -> Unit, viewModel: InstagramViewModel
 ) {
-	Column(
-		modifier = Modifier.fillMaxSize()
-	) {
+	Column(modifier = Modifier.fillMaxSize()) {
 		Column(
 			modifier = Modifier.weight(1f)
 		) {

@@ -28,9 +28,7 @@ fun UserImageCard(
 	imageUrl: String?,
 	modifier: Modifier
 ) {
-	Card(
-		shape = CircleShape, modifier = modifier
-	) {
+	Card(shape = CircleShape, modifier = modifier) {
 		if (imageUrl.isNullOrEmpty()) {
 			Image(
 				painter = painterResource(R.drawable.ic_person),

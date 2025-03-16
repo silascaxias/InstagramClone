@@ -21,12 +21,9 @@ class UserRepository(
 	
 	suspend fun getUserById(id: Int): User? = database.userDAO().getUserById(id)
 	
-	suspend fun getUserByEmailAndPassword(email: String, password: String): User? =
-		database.userDAO().getUserByEmailAndPassword(email, password)
+	suspend fun getUserByEmailAndPassword(email: String, password: String) = database.userDAO().getUserByEmailAndPassword(email, password)
 	
-	suspend fun insert(user: User): Long {
-		return database.userDAO().insert(user)
-	}
+	suspend fun insert(user: User): Long = database.userDAO().insert(user)
 	
 	suspend fun update(user: User) = database.userDAO().update(user)
 	
@@ -35,4 +32,6 @@ class UserRepository(
 	suspend fun onLogin(userId: Int) = storeManager.saveUserId(userId)
 	
 	suspend fun onLogout() = storeManager.saveUserId(null)
+	
+	fun onDestroy() = database.close()
 }

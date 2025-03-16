@@ -1,4 +1,4 @@
-package com.example.instagramclone.views.main
+package com.example.instagramclone.views.common
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun CommonDivider() {
 	HorizontalDivider(
-		modifier = Modifier.alpha(0.3f).padding(top = 8.dp, bottom = 8.dp),
+		modifier = Modifier.Companion.alpha(0.3f).padding(top = 8.dp, bottom = 8.dp),
 		thickness = 1.dp,
 		color = MaterialTheme.colorScheme.primary
 	)

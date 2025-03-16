@@ -6,7 +6,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.example.instagramclone.model.User
-import kotlinx.coroutines.flow.Flow
 
 /**
  * UserDAO
@@ -21,7 +20,7 @@ interface UserDAO {
 	@Insert(onConflict = OnConflictStrategy.ABORT)
 	suspend fun insert(user: User): Long
 	
-	@Update
+	@Update(onConflict = OnConflictStrategy.ABORT)
 	suspend fun update(user: User): Int
 	
 	@Query("SELECT * FROM users WHERE id = :id")

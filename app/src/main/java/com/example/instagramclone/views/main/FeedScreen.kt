@@ -23,12 +23,8 @@ import com.example.instagramclone.views.navigation.AppScreen
 fun FeedScreen(
 	navigateToDestination: (AppScreen) -> Unit, viewModel: InstagramViewModel
 ) {
-	Column(
-		modifier = Modifier.fillMaxSize()
-	) {
-		Column(
-			modifier = Modifier.weight(1f)
-		) {
+	Column(modifier = Modifier.fillMaxSize()) {
+		Column(modifier = Modifier.weight(1f)) {
 			Text(text = "Feed Screen")
 		}
 		BottomNavigationBar(

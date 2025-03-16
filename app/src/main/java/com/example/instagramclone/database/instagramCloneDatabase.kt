@@ -31,7 +31,7 @@ abstract class InstagramCloneDatabase : RoomDatabase() {
 		private fun createDatabase(context: Context) = Room.databaseBuilder(
 			context.applicationContext,
 			InstagramCloneDatabase::class.java,
-			"instagram_clone_database"
+			"instagram_clone_database.db"
 		).build()
 	}
 }

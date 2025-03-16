@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import com.example.instagramclone.utils.Utils
 import com.example.instagramclone.viewmodel.InstagramViewModel
+import com.example.instagramclone.views.common.CommonDivider
 import com.example.instagramclone.views.common.LoadingProgressIndicator
 
 /**
@@ -118,10 +119,7 @@ fun ProfileContent(
 				onChangeImageUri(it.toString())
 			}
 		}
-	Box(
-		modifier =
-			Modifier.imePadding(),
-	) {
+	Box(modifier = Modifier.imePadding()) {
 		Column(
 			modifier = Modifier
 				.verticalScroll(rememberScrollState())
