@@ -1,4 +1,4 @@
-package com.example.instagramclone.data.model
+package com.example.instagramclone.data.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -22,7 +22,7 @@ import androidx.room.PrimaryKey
 )
 data class User (
 	@PrimaryKey(true)
-	var id: Int,
+	var id: Int = 0,
 	var name: String,
 	var username: String,
 	var email: String,

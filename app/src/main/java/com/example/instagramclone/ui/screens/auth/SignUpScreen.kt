@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import com.example.instagramclone.R
 import com.example.instagramclone.ui.screens.common.LoadingProgressIndicator
 import com.example.instagramclone.viewmodel.InstagramViewModel
+import com.example.instagramclone.viewmodel.onSignUp
 
 /**
  * SignUpScreen

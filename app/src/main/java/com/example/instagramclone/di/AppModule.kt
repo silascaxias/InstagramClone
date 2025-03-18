@@ -2,6 +2,7 @@ package com.example.instagramclone.di
 
 import com.example.instagramclone.data.local.InstagramCloneDatabase
 import com.example.instagramclone.data.local.StoreManager
+import com.example.instagramclone.data.repository.PostRepository
 import com.example.instagramclone.data.repository.UserRepository
 import com.example.instagramclone.viewmodel.InstagramViewModel
 import org.koin.android.ext.koin.androidContext
@@ -21,5 +22,6 @@ val appModule = module {
 	single { InstagramCloneDatabase(androidContext()) }
 	single { StoreManager(androidContext()) }
 	singleOf(::UserRepository)
+	singleOf(::PostRepository)
 	viewModelOf(::InstagramViewModel)
 }

@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.instagramclone.data.local.dao.PostDAO
 import com.example.instagramclone.data.local.dao.UserDAO
-import com.example.instagramclone.data.model.User
+import com.example.instagramclone.data.entity.Post
+import com.example.instagramclone.data.entity.User
 
 /**
  * instagramCloneDatabase
@@ -15,9 +17,10 @@ import com.example.instagramclone.data.model.User
  *
  **/
 
-@Database(entities = [User::class], version = 1, exportSchema = false)
+@Database(entities = [User::class, Post::class], version = 1, exportSchema = false)
 abstract class InstagramCloneDatabase : RoomDatabase() {
 	abstract fun userDAO(): UserDAO
+	abstract fun postDAO(): PostDAO
 	
 	companion object {
 		@Volatile

@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.example.instagramclone.data.model.User
+import com.example.instagramclone.data.entity.User
 
 /**
  * UserDAO

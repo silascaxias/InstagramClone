@@ -35,8 +35,11 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import com.example.instagramclone.ui.screens.common.CommonDivider
 import com.example.instagramclone.ui.screens.common.LoadingProgressIndicator
+import com.example.instagramclone.ui.screens.common.ProfileImage
 import com.example.instagramclone.utils.Utils
 import com.example.instagramclone.viewmodel.InstagramViewModel
+import com.example.instagramclone.viewmodel.onLogout
+import com.example.instagramclone.viewmodel.updateUser
 
 /**
  * EditProfileScreen
@@ -54,8 +57,7 @@ fun EditProfileScreen(
 	context: Context
 ) {
 	val isLoading = viewModel.isLoading.value
-	
-	val userData = viewModel.user.value
+	val userData = viewModel.currentUser.value
 	var name by rememberSaveable { mutableStateOf(userData?.name ?: "") }
 	var username by rememberSaveable { mutableStateOf(userData?.username ?: "") }
 	var bio by rememberSaveable { mutableStateOf(userData?.bio ?: "") }
@@ -138,11 +140,11 @@ fun ProfileContent(
 			
 			CommonDivider()
 			
-			Column(
+			Row(
 				modifier = Modifier
 					.wrapContentHeight()
 					.fillMaxWidth(),
-				horizontalAlignment = Alignment.CenterHorizontally
+				horizontalArrangement = Arrangement.Center
 			) {
 				ProfileImage(
 					imageUrl = imageUrl,
@@ -236,21 +238,3 @@ fun ProfileContent(
 		}
 	}
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//private fun ProfileContentPreview() {
-//	InstagramCloneTheme {
-//		ProfileContent(
-//			name = "Naruto Uzumaki",
-//			username = "naruto_uzumaki",
-//			bio = "This is the profile account of Naruto Uzumaki.",
-//			onNameChanged = {},
-//			onUsernameChanged = {},
-//			onBioChanged = {},
-//			onSave = {},
-//			onBack = {},
-//			onLogout = {}
-//		)
-//	}
-//}

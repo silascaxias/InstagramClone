@@ -2,7 +2,7 @@ package com.example.instagramclone.data.repository
 
 import com.example.instagramclone.data.local.InstagramCloneDatabase
 import com.example.instagramclone.data.local.StoreManager
-import com.example.instagramclone.data.model.User
+import com.example.instagramclone.data.entity.User
 
 /**
  * UserRepository

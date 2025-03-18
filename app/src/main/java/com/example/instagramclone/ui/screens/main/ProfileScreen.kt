@@ -1,37 +1,38 @@
 package com.example.instagramclone.ui.screens.main
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import com.example.instagramclone.R
-import com.example.instagramclone.ui.screens.common.LoadingProgressIndicator
-import com.example.instagramclone.ui.screens.common.UserImageCard
 import com.example.instagramclone.ui.navigation.AppScreen
+import com.example.instagramclone.ui.screens.common.LoadingProgressIndicator
+import com.example.instagramclone.ui.screens.common.PostItem
+import com.example.instagramclone.ui.screens.common.ProfileImage
 import com.example.instagramclone.viewmodel.InstagramViewModel
+import com.example.instagramclone.viewmodel.deleteAllPosts
 
 /**
  * ProfileScreen
@@ -43,12 +44,22 @@ import com.example.instagramclone.viewmodel.InstagramViewModel
 
 @Composable
 fun ProfileScreen(
-	navigateToDestination: (AppScreen) -> Unit,
+	navigateToNewPost: (String) -> Unit,
 	viewModel: InstagramViewModel,
 	navigateToEditProfile: () -> Unit
 ) {
-	val userData = viewModel.user.value
+	var newPostImageLauncher =
+		rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
+			uri?.let {
+				val encodedUri = Uri.encode(uri.toString())
+				val route = AppScreen.Main.NewPost.createRoute(encodedUri = encodedUri)
+				navigateToNewPost(route)
+			}
+		}
+	
+	val userData = viewModel.currentUser.value
 	val isLoading = viewModel.isLoading.value
+	val posts = viewModel.userPosts.collectAsState(emptyList())
 	
 	Column {
 		Column(
@@ -57,42 +68,67 @@ fun ProfileScreen(
 				.padding(top = 12.dp, bottom = 12.dp)
 		) {
 			Row {
-				ProfileImage(
-					imageUrl = userData?.imageUrl,
-					width = 80.dp,
-					showAddIcon = true,
-					onClick = {
-					
-					})
-				Text(
-					text = "15\nposts",
-					modifier = Modifier
-						.weight(1f)
-						.align(Alignment.CenterVertically),
-					textAlign = TextAlign.Center
-				)
-				Text(
-					text = "54\nfollowers",
-					modifier = Modifier
-						.weight(1f)
-						.align(Alignment.CenterVertically),
-					textAlign = TextAlign.Center
-				)
-				Text(
-					text = "93\nfollowing",
-					modifier = Modifier
-						.weight(1f)
-						.align(Alignment.CenterVertically),
-					textAlign = TextAlign.Center
-				)
+				Column {
+					ProfileImage(
+						imageUrl = userData?.imageUrl,
+						width = 80.dp,
+						showAddIcon = true,
+						onClick = {
+							newPostImageLauncher.launch("image/*")
+						})
+				}
+				Column {
+					Row (modifier = Modifier.padding(start = 28.dp, bottom = 6.dp)) {
+						Text(text = userData?.name ?: "test", fontWeight = FontWeight.Bold)
+					}
+					Row {
+						Text(
+							text = buildAnnotatedString {
+								withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+									append("${posts.value.size}\n")
+								}
+								append("posts")
+							},
+							modifier = Modifier
+								.weight(1f)
+								.align(Alignment.CenterVertically),
+							textAlign = TextAlign.Center
+						)
+						Text(
+							text = buildAnnotatedString {
+								withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+									append("54\n")
+								}
+								append("followers")
+							},
+							modifier = Modifier
+								.weight(1f)
+								.align(Alignment.CenterVertically),
+							textAlign = TextAlign.Center
+						)
+						Text(
+							text = buildAnnotatedString {
+								withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+									append("93\n")
+								}
+								append("following")
+							},
+							modifier = Modifier
+								.weight(1f)
+								.align(Alignment.CenterVertically),
+							textAlign = TextAlign.Center
+						)
+					}
+				}
 			}
+			
 			Column(modifier = Modifier.padding(8.dp)) {
 				val userNameToDisplay =
 					if (userData?.username == null) "" else "@${userData.username}"
-				Text(text = userData?.name ?: "test", fontWeight = FontWeight.Bold)
 				Text(text = userNameToDisplay)
-				Text(text = userData?.bio ?: "")
+				Text(text = userData?.bio ?: "", fontWeight = FontWeight.Bold)
 			}
+			
 			OutlinedButton(
 				onClick = {
 					navigateToEditProfile()
@@ -112,55 +148,48 @@ fun ProfileScreen(
 			) {
 				Text("EDIT PROFILE", color = MaterialTheme.colorScheme.primary)
 			}
+			
 			Column(
-				modifier = Modifier.weight(1f)
+				modifier = Modifier
+					.weight(1f)
+					.fillMaxSize()
 			) {
-				Text(text = "Post list")
+				if (isLoading) {
+					LoadingProgressIndicator()
+				} else if (posts.value.isEmpty()) {
+					Column(
+						horizontalAlignment = Alignment.CenterHorizontally,
+						verticalArrangement = Arrangement.Center
+					) {
+						Text(text = "No posts available")
+					}
+				} else {
+					LazyVerticalGrid(
+						columns = GridCells.Fixed(3),
+						modifier = Modifier.fillMaxSize()
+					) {
+						items(posts.value.size) { postIndex ->
+							PostItem(posts.value[postIndex])
+						}
+					}
+				}
+			}
+			
+			Row(
+				modifier = Modifier
+					.fillMaxWidth()
+					.padding(top = 16.dp, bottom = 16.dp),
+				horizontalArrangement = Arrangement.Center
+			) {
+				OutlinedButton(onClick = {
+					viewModel.deleteAllPosts()
+				}) {
+					Text(text = "Delete All Posts")
+				}
 			}
 		}
-		BottomNavigationBar(
-			selectedItem = BottomNavigationItem.PROFILE,
-			navigateToDestination = navigateToDestination
-		)
 	}
 	if (isLoading) {
 		LoadingProgressIndicator()
-	}
-}
-
-@Composable
-fun ProfileImage(
-	imageUrl: String?,
-	onClick: () -> Unit,
-	width: Dp,
-	showAddIcon: Boolean
-) {
-	Box(
-		modifier = Modifier
-			.clickable { onClick() }
-	) {
-		UserImageCard(
-			imageUrl = imageUrl,
-			modifier = Modifier
-				.padding(8.dp)
-				.size(width)
-		)
-		if (showAddIcon) {
-			Card(
-				shape = CircleShape,
-				border = BorderStroke(width = 2.dp, color = Color.White),
-				modifier = Modifier
-					.size(32.dp)
-					.align(Alignment.BottomEnd)
-					.padding(bottom = 8.dp, end = 8.dp)
-			) {
-				Image(
-					painter = painterResource(id = R.drawable.ic_add),
-					contentDescription = null,
-					modifier = Modifier.background(Color.Blue),
-					colorFilter = ColorFilter.tint(Color.White)
-				)
-			}
-		}
 	}
 }

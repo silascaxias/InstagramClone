@@ -5,9 +5,11 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.example.instagramclone.ui.screens.common.BottomNavigationItem
 import com.example.instagramclone.ui.screens.main.EditProfileScreen
 import com.example.instagramclone.viewmodel.InstagramViewModel
 import com.example.instagramclone.ui.screens.main.FeedScreen
+import com.example.instagramclone.ui.screens.main.NewPostScreen
 import com.example.instagramclone.ui.screens.main.ProfileScreen
 import com.example.instagramclone.ui.screens.main.SearchScreen
 
@@ -21,7 +23,8 @@ import com.example.instagramclone.ui.screens.main.SearchScreen
 
 fun NavGraphBuilder.mainNavGraph(
 	navController: NavHostController,
-	viewModel: InstagramViewModel
+	viewModel: InstagramViewModel,
+	selectedItem: BottomNavigationItem
 ) {
 	val navigateToDestination: (AppScreen) -> Unit = { destination: AppScreen ->
 		navController.navigate(destination.route) {
@@ -32,38 +35,34 @@ fun NavGraphBuilder.mainNavGraph(
 	}
 	
 	navigation(
-		startDestination = AppScreen.Main.PROFILE.route,
+		startDestination = AppScreen.Main.Profile.route,
 		route = AppScreen.Main.route,
 	) {
 		composable(
-			route = AppScreen.Main.FEED.route
+			route = AppScreen.Main.Feed.route
 		) {
-			FeedScreen(
-				navigateToDestination = navigateToDestination,
-				viewModel = viewModel
-			)
+			FeedScreen()
 		}
 		composable(
-			route = AppScreen.Main.SEARCH.route
+			route = AppScreen.Main.Search.route
 		) {
-			SearchScreen(
-				navigateToDestination = navigateToDestination,
-				viewModel = viewModel
-			)
+			SearchScreen()
 		}
 		composable(
-			route = AppScreen.Main.PROFILE.route
+			route = AppScreen.Main.Profile.route
 		) {
 			ProfileScreen(
-				navigateToEditProfile = {
-					navController.navigate(AppScreen.Main.EDIT_PROFILE.route)
+				navigateToNewPost = { route ->
+					navController.navigate(route)
 				},
-				navigateToDestination = navigateToDestination,
+				navigateToEditProfile = {
+					navController.navigate(AppScreen.Main.EditProfile.route)
+				},
 				viewModel = viewModel
 			)
 		}
 		composable(
-			route = AppScreen.Main.EDIT_PROFILE.route
+			route = AppScreen.Main.EditProfile.route
 		) {
 			EditProfileScreen(
 				navigateToAuth = {
@@ -77,6 +76,19 @@ fun NavGraphBuilder.mainNavGraph(
 				viewModel = viewModel,
 				context = LocalContext.current
 			)
+		}
+		composable(
+			route = AppScreen.Main.NewPost.route
+		) { navBackStackEntry ->
+			navBackStackEntry.arguments?.getString("imageUri")?.let { imageUri ->
+				NewPostScreen(
+					navigateToPostList = {
+						navController.popBackStack()
+					},
+					viewModel = viewModel,
+					encodedUri = imageUri
+				)
+			}
 		}
 	}
 }
