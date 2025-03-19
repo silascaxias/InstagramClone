@@ -51,8 +51,10 @@ fun InstagramCloneTheme(
 		else -> LightColorScheme
 	}
 	
+	val colors = if (darkTheme) DarkColorScheme else LightColorScheme
+	
 	MaterialTheme(
-		colorScheme = colorScheme,
+		colorScheme = colors,
 		typography = Typography,
 		content = content
 	)

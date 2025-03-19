@@ -21,6 +21,7 @@ private object Routes {
 	const val SEARCH = "search"
 	const val EDIT_PROFILE = "edit_profile"
 	const val NEW_POST = "new_post/{imageUri}"
+	const val POST = "post/{postId}"
 }
 
 sealed class AppScreen(val route: String) {
@@ -36,6 +37,9 @@ sealed class AppScreen(val route: String) {
 		data object EditProfile : AppScreen(Routes.EDIT_PROFILE)
 		data object NewPost : AppScreen(Routes.NEW_POST) {
 			fun createRoute(encodedUri: String) = "new_post/$encodedUri"
+		}
+		data object Post : AppScreen(Routes.POST) {
+			fun createRoute(postId: Int) = "post/$postId"
 		}
 	}
 }

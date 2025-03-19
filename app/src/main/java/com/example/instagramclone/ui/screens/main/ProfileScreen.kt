@@ -3,12 +3,15 @@ package com.example.instagramclone.ui.screens.main
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,18 +24,23 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import com.example.instagramclone.R
 import com.example.instagramclone.ui.navigation.AppScreen
 import com.example.instagramclone.ui.screens.common.LoadingProgressIndicator
 import com.example.instagramclone.ui.screens.common.PostItem
 import com.example.instagramclone.ui.screens.common.ProfileImage
 import com.example.instagramclone.viewmodel.InstagramViewModel
 import com.example.instagramclone.viewmodel.deleteAllPosts
+import com.example.instagramclone.viewmodel.getUserPosts
+import com.example.instagramclone.viewmodel.showMessage
 
 /**
  * ProfileScreen
@@ -46,7 +54,8 @@ import com.example.instagramclone.viewmodel.deleteAllPosts
 fun ProfileScreen(
 	navigateToNewPost: (String) -> Unit,
 	viewModel: InstagramViewModel,
-	navigateToEditProfile: () -> Unit
+	navigateToEditProfile: () -> Unit,
+	navigateToPost: (Int) -> Unit
 ) {
 	var newPostImageLauncher =
 		rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
@@ -59,7 +68,7 @@ fun ProfileScreen(
 	
 	val userData = viewModel.currentUser.value
 	val isLoading = viewModel.isLoading.value
-	val posts = viewModel.userPosts.collectAsState(emptyList())
+	val postsWithUsers = viewModel.getUserPosts().collectAsState(emptyList())
 	
 	Column {
 		Column(
@@ -67,32 +76,36 @@ fun ProfileScreen(
 				.weight(1f)
 				.padding(top = 12.dp, bottom = 12.dp)
 		) {
-			Row {
+			Row (modifier = Modifier.padding(end = 12.dp)){
 				Column {
 					ProfileImage(
 						imageUrl = userData?.imageUrl,
-						width = 80.dp,
+						width = 90.dp,
 						showAddIcon = true,
 						onClick = {
 							newPostImageLauncher.launch("image/*")
 						})
 				}
-				Column {
-					Row (modifier = Modifier.padding(start = 28.dp, bottom = 6.dp)) {
-						Text(text = userData?.name ?: "test", fontWeight = FontWeight.Bold)
+				Column(
+					modifier = Modifier.padding(start = 20.dp),
+					horizontalAlignment = Alignment.Start
+				) {
+					Row(modifier = Modifier.padding(bottom = 6.dp)) {
+						Text(text = userData?.name ?: "", fontWeight = FontWeight.Bold)
 					}
-					Row {
+					Row(
+						modifier = Modifier
+							.fillMaxWidth(),
+						horizontalArrangement = Arrangement.SpaceBetween
+					) {
 						Text(
 							text = buildAnnotatedString {
 								withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-									append("${posts.value.size}\n")
+									append("${postsWithUsers.value.size}\n")
 								}
 								append("posts")
 							},
-							modifier = Modifier
-								.weight(1f)
-								.align(Alignment.CenterVertically),
-							textAlign = TextAlign.Center
+							textAlign = TextAlign.Start
 						)
 						Text(
 							text = buildAnnotatedString {
@@ -101,10 +114,7 @@ fun ProfileScreen(
 								}
 								append("followers")
 							},
-							modifier = Modifier
-								.weight(1f)
-								.align(Alignment.CenterVertically),
-							textAlign = TextAlign.Center
+							textAlign = TextAlign.Start
 						)
 						Text(
 							text = buildAnnotatedString {
@@ -113,10 +123,7 @@ fun ProfileScreen(
 								}
 								append("following")
 							},
-							modifier = Modifier
-								.weight(1f)
-								.align(Alignment.CenterVertically),
-							textAlign = TextAlign.Center
+							textAlign = TextAlign.Start
 						)
 					}
 				}
@@ -125,28 +132,57 @@ fun ProfileScreen(
 			Column(modifier = Modifier.padding(8.dp)) {
 				val userNameToDisplay =
 					if (userData?.username == null) "" else "@${userData.username}"
-				Text(text = userNameToDisplay)
+				Text(text = userNameToDisplay, modifier = Modifier.padding(bottom = 4.dp))
 				Text(text = userData?.bio ?: "", fontWeight = FontWeight.Bold)
 			}
 			
-			OutlinedButton(
-				onClick = {
-					navigateToEditProfile()
-				},
+			Row(
 				modifier = Modifier
-					.padding(8.dp)
-					.fillMaxWidth(),
-				colors = ButtonDefaults.buttonColors(
-					containerColor = Color.Transparent
-				),
-				elevation = ButtonDefaults.buttonElevation(
-					defaultElevation = 0.dp,
-					pressedElevation = 0.dp,
-					disabledElevation = 0.dp
-				),
-				shape = RoundedCornerShape(10)
+					.fillMaxWidth()
+					.wrapContentHeight()
+					.padding(8.dp),
+				horizontalArrangement = Arrangement.spacedBy(8.dp)
 			) {
-				Text("EDIT PROFILE", color = MaterialTheme.colorScheme.primary)
+				Row(
+					modifier = Modifier.weight(1f),
+					horizontalArrangement = Arrangement.spacedBy(8.dp)
+				) {
+					OutlinedButton(
+						onClick = { navigateToEditProfile() },
+						modifier = Modifier.weight(1f),
+						colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+						elevation = ButtonDefaults.buttonElevation(0.dp),
+						shape = RoundedCornerShape(16),
+						border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
+					) {
+						Text("Edit", color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
+					}
+					
+					OutlinedButton(
+						onClick = { viewModel.showMessage("Not implemented...") },
+						modifier = Modifier.weight(1f),
+						colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+						elevation = ButtonDefaults.buttonElevation(0.dp),
+						shape = RoundedCornerShape(16),
+						border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary)
+					) {
+						Text("Share Profile", color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
+					}
+				}
+				
+				OutlinedButton(
+					onClick = { viewModel.showMessage("Not implemented...") },
+					colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+					elevation = ButtonDefaults.buttonElevation(0.dp),
+					shape = RoundedCornerShape(16),
+					border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary)
+				) {
+					Image(
+						painter = painterResource(id = R.drawable.ic_add_person),
+						contentDescription = "Add Person",
+						colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
+					)
+				}
 			}
 			
 			Column(
@@ -156,7 +192,7 @@ fun ProfileScreen(
 			) {
 				if (isLoading) {
 					LoadingProgressIndicator()
-				} else if (posts.value.isEmpty()) {
+				} else if (postsWithUsers.value.isEmpty()) {
 					Column(
 						horizontalAlignment = Alignment.CenterHorizontally,
 						verticalArrangement = Arrangement.Center
@@ -165,26 +201,17 @@ fun ProfileScreen(
 					}
 				} else {
 					LazyVerticalGrid(
+						userScrollEnabled = true,
 						columns = GridCells.Fixed(3),
-						modifier = Modifier.fillMaxSize()
+						modifier = Modifier.fillMaxSize(),
 					) {
-						items(posts.value.size) { postIndex ->
-							PostItem(posts.value[postIndex])
+						items(postsWithUsers.value.size) { postIndex ->
+							val postWithUser = postsWithUsers.value[postIndex]
+							PostItem(postWithUser) {
+								navigateToPost(postWithUser.post.id)
+							}
 						}
 					}
-				}
-			}
-			
-			Row(
-				modifier = Modifier
-					.fillMaxWidth()
-					.padding(top = 16.dp, bottom = 16.dp),
-				horizontalArrangement = Arrangement.Center
-			) {
-				OutlinedButton(onClick = {
-					viewModel.deleteAllPosts()
-				}) {
-					Text(text = "Delete All Posts")
 				}
 			}
 		}

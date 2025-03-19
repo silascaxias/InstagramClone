@@ -14,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
@@ -44,12 +45,14 @@ fun BottomNavigationBar(
 	selectedItem: BottomNavigationItem,
 	navigateToDestination: (AppScreen) -> Unit,
 ) {
-	Column {
+	Column(modifier = Modifier.wrapContentHeight()) {
+		CommonDivider(width = 0.5.dp, modifier = Modifier
+			.alpha(0.3f)
+			.padding(bottom = 8.dp))
 		Row(
 			modifier = Modifier.Companion
 				.fillMaxWidth()
 				.wrapContentHeight()
-				.background(MaterialTheme.colorScheme.background)
 		) {
 			BottomNavigationItem.entries.forEach { item ->
 				Image(
@@ -69,7 +72,6 @@ fun BottomNavigationBar(
 				)
 			}
 		}
-		CommonDivider()
 	}
 }
 

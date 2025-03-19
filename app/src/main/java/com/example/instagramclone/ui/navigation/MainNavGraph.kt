@@ -10,6 +10,7 @@ import com.example.instagramclone.ui.screens.main.EditProfileScreen
 import com.example.instagramclone.viewmodel.InstagramViewModel
 import com.example.instagramclone.ui.screens.main.FeedScreen
 import com.example.instagramclone.ui.screens.main.NewPostScreen
+import com.example.instagramclone.ui.screens.main.PostScreen
 import com.example.instagramclone.ui.screens.main.ProfileScreen
 import com.example.instagramclone.ui.screens.main.SearchScreen
 
@@ -23,17 +24,8 @@ import com.example.instagramclone.ui.screens.main.SearchScreen
 
 fun NavGraphBuilder.mainNavGraph(
 	navController: NavHostController,
-	viewModel: InstagramViewModel,
-	selectedItem: BottomNavigationItem
+	viewModel: InstagramViewModel
 ) {
-	val navigateToDestination: (AppScreen) -> Unit = { destination: AppScreen ->
-		navController.navigate(destination.route) {
-			popUpTo(navController.currentDestination?.route.toString()) {
-				inclusive = true
-			}
-		}
-	}
-	
 	navigation(
 		startDestination = AppScreen.Main.Profile.route,
 		route = AppScreen.Main.route,
@@ -41,7 +33,9 @@ fun NavGraphBuilder.mainNavGraph(
 		composable(
 			route = AppScreen.Main.Feed.route
 		) {
-			FeedScreen()
+			FeedScreen(
+				viewModel = viewModel
+			)
 		}
 		composable(
 			route = AppScreen.Main.Search.route
@@ -57,6 +51,9 @@ fun NavGraphBuilder.mainNavGraph(
 				},
 				navigateToEditProfile = {
 					navController.navigate(AppScreen.Main.EditProfile.route)
+				},
+				navigateToPost = { postId ->
+					navController.navigate(AppScreen.Main.Post.createRoute(postId))
 				},
 				viewModel = viewModel
 			)
@@ -87,6 +84,19 @@ fun NavGraphBuilder.mainNavGraph(
 					},
 					viewModel = viewModel,
 					encodedUri = imageUri
+				)
+			}
+		}
+		composable (
+			route = AppScreen.Main.Post.route
+		) { navBackStackEntry ->
+			navBackStackEntry.arguments?.getString("postId")?.let { postId ->
+				PostScreen(
+					postId = postId.toInt(),
+					viewModel = viewModel,
+					navigateToBackScreen = {
+						navController.popBackStack()
+					}
 				)
 			}
 		}

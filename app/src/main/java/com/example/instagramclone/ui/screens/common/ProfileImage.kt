@@ -35,8 +35,11 @@ fun ProfileImage(
 	showAddIcon: Boolean
 ) {
 	Box(
-		modifier = Modifier
-			.clickable { onClick?.invoke() }
+		modifier = if (showAddIcon) {
+			Modifier.clickable { onClick?.invoke() }
+		} else {
+			Modifier
+		}
 	) {
 		UserImageCard(
 			imageUrl = imageUrl,

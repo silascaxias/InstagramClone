@@ -18,6 +18,8 @@ class PostRepository(
 	
 	val allPosts: Flow<List<PostWithUser>> = database.postDAO().getAllPosts()
 	
+	fun getPost(postId: Int): Flow<PostWithUser> = database.postDAO().getPost(postId = postId)
+	
 	fun userPosts(userId: Int): Flow<List<PostWithUser>> = database.postDAO().getUserPosts(userId = userId)
 	
 	suspend fun insert(post: Post) = database.postDAO().insert(post)

@@ -21,7 +21,6 @@ import com.example.instagramclone.viewmodel.InstagramViewModel
 fun RootNavGraph(
 	navHostController: NavHostController,
 	viewModel: InstagramViewModel,
-	selectedItem: BottomNavigationItem,
 	innerPadding: PaddingValues
 ) {
 	NavHost(
@@ -35,7 +34,6 @@ fun RootNavGraph(
 		)
 		mainNavGraph(
 			navController = navHostController,
-			selectedItem = selectedItem,
 			viewModel = viewModel
 		)
 	}

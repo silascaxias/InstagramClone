@@ -6,6 +6,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 /**
@@ -17,10 +18,15 @@ import androidx.compose.ui.unit.dp
  **/
 
 @Composable
-fun CommonDivider() {
+fun CommonDivider(
+	width: Dp = 1.dp,
+	modifier: Modifier = Modifier
+		.alpha(0.3f)
+		.padding(top = 8.dp, bottom = 8.dp)
+) {
 	HorizontalDivider(
-		modifier = Modifier.Companion.alpha(0.3f).padding(top = 8.dp, bottom = 8.dp),
-		thickness = 1.dp,
+		modifier = modifier,
+		thickness = width,
 		color = MaterialTheme.colorScheme.primary
 	)
 }

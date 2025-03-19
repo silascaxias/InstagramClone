@@ -5,12 +5,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.instagramclone.data.entity.Post
+import com.example.instagramclone.data.entity.PostWithUser
 import com.example.instagramclone.data.entity.User
 import com.example.instagramclone.data.local.InstagramCloneDatabase
 import com.example.instagramclone.data.repository.PostRepository
 import com.example.instagramclone.data.repository.UserRepository
 import com.example.instagramclone.model.Event
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 /**
@@ -31,14 +34,14 @@ class InstagramViewModel(
 	val isLoading = mutableStateOf(false)
 	val currentUser = mutableStateOf<User?>(null)
 	val popUpNotification = mutableStateOf<Event<String>?>(null)
-	val userPosts = postRepository.userPosts(userId = currentUser.value?.id ?: 1)
+	val allPosts = postRepository.allPosts
 	
 	init {
-		
 		viewModelScope.launch {
 			val userId = async { userRepository.getUserLoggedInId() }.await()
 			userId?.let {
 				loadUserDataAndLogIn(it)
+				signedIn.value = true
 			}
 		}
 	}
@@ -101,6 +104,12 @@ fun InstagramViewModel.createNewPost(imageUrl: String, description: String, onSu
 	}
 }
 
+fun InstagramViewModel.getUserPosts(): Flow<List<PostWithUser>> =
+	postRepository.userPosts(userId = currentUser.value?.id ?: 1)
+
+fun InstagramViewModel.getPost(postId: Int): Flow<PostWithUser> =
+	postRepository.getPost(postId = postId)
+
 fun InstagramViewModel.deleteAllPosts() {
 	viewModelScope.launch {
 		postRepository.deleteAllPosts()
@@ -114,7 +123,6 @@ fun InstagramViewModel.loadUserDataAndLogIn(userId: Int) {
 	viewModelScope.launch {
 		userRepository.getUserById(userId)?.let {
 			currentUser.value = it
-			signedIn.value = true
 			isLoading.value = false
 		}
 	}

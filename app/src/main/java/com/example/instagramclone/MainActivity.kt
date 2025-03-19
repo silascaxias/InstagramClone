@@ -72,7 +72,6 @@ class MainActivity : ComponentActivity() {
 				){ innerPadding ->
 					RootNavGraph(
 						navHostController = navHostController,
-						selectedItem = selectedItem,
 						viewModel = viewModel,
 						innerPadding = innerPadding
 					)
