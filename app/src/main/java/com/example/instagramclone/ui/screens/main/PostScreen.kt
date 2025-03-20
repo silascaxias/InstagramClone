@@ -67,7 +67,9 @@ fun PostScreen(
 			}
 			
 			LargePostItem(
-				postWithUser = postWithUser, modifier = Modifier
+				currentUser = viewModel.currentUser.value,
+				postWithUser = postWithUser,
+				modifier = Modifier
 					.weight(1f)
 					.padding(bottom = 12.dp)
 			)

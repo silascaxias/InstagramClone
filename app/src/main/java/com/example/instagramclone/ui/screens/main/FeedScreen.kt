@@ -87,7 +87,7 @@ fun FeedScreen(
 			} else {
 				posts.value.forEach { postWithUser ->
 					Row {
-						LargePostItem(postWithUser, modifier = Modifier.padding(bottom = 12.dp))
+						LargePostItem(viewModel.currentUser.value, postWithUser, modifier = Modifier.padding(bottom = 12.dp))
 					}
 				}
 			}

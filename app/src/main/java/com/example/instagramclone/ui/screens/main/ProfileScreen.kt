@@ -38,7 +38,6 @@ import com.example.instagramclone.ui.screens.common.LoadingProgressIndicator
 import com.example.instagramclone.ui.screens.common.PostItem
 import com.example.instagramclone.ui.screens.common.ProfileImage
 import com.example.instagramclone.viewmodel.InstagramViewModel
-import com.example.instagramclone.viewmodel.deleteAllPosts
 import com.example.instagramclone.viewmodel.getUserPosts
 import com.example.instagramclone.viewmodel.showMessage
 

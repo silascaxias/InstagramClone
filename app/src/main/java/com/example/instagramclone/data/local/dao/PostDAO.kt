@@ -30,9 +30,9 @@ interface PostDAO {
 	@Query("SELECT * FROM posts")
 	fun getAllPosts(): Flow<List<PostWithUser>>
 	
-	@Query("DELETE FROM posts")
-	suspend fun deleteAllPosts(): Int
-	
 	@Query("SELECT * FROM posts WHERE id = :postId")
 	fun getPost(postId: Int): Flow<PostWithUser>
+	
+	@Query("SELECT * FROM posts WHERE lower(description) LIKE '%' || :description || '%'")
+	fun getPostByDescription(description: String): Flow<List<PostWithUser>>
 }

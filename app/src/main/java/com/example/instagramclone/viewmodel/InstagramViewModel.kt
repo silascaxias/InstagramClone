@@ -13,7 +13,6 @@ import com.example.instagramclone.data.repository.UserRepository
 import com.example.instagramclone.model.Event
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 /**
@@ -110,11 +109,9 @@ fun InstagramViewModel.getUserPosts(): Flow<List<PostWithUser>> =
 fun InstagramViewModel.getPost(postId: Int): Flow<PostWithUser> =
 	postRepository.getPost(postId = postId)
 
-fun InstagramViewModel.deleteAllPosts() {
-	viewModelScope.launch {
-		postRepository.deleteAllPosts()
-	}
-}
+fun InstagramViewModel.getPostByDescription(description: String): Flow<List<PostWithUser>> =
+	postRepository.getPostByDescription(description = description)
+
 //</editor-fold>
 
 //<editor-fold desc="User">
@@ -218,12 +215,14 @@ fun InstagramViewModel.onLogin(
 	}
 }
 
-fun InstagramViewModel.onLogout() {
+fun InstagramViewModel.onLogout(navigateToAuth: () -> Unit) {
 	viewModelScope.launch {
 		async { userRepository.onLogout() }.await()
 		currentUser.value = null
 		signedIn.value = false
 		popUpNotification.value = Event("Logged out!")
+	}.invokeOnCompletion {
+		navigateToAuth()
 	}
 }
 //</editor-fold>

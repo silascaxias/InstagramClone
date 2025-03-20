@@ -7,11 +7,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
+import com.example.instagramclone.R
 
 /**
  * CommonImage
@@ -33,7 +35,14 @@ fun CommonImage(
 			.size(Size.ORIGINAL)
 			.build()
 	)
-	if (painter.state is AsyncImagePainter.State.Loading) {
+	if (data.isNullOrEmpty()) {
+		Image(
+			painter = painterResource(id = R.drawable.ic_person),
+			contentDescription = null,
+			modifier = modifier,
+			contentScale = contentScale
+		)
+	} else if (painter.state is AsyncImagePainter.State.Loading) {
 		LoadingProgressIndicator(width = 50.dp)
 	} else {
 		Image(

@@ -1,5 +1,6 @@
 package com.example.instagramclone.ui.screens.common
 
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,7 +10,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,12 +24,15 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.instagramclone.R
+import com.example.instagramclone.data.entity.Post
 import com.example.instagramclone.data.entity.PostWithUser
-import java.text.SimpleDateFormat
-import java.util.Locale
+import com.example.instagramclone.data.entity.User
+import com.example.instagramclone.ui.theme.InstagramCloneTheme
+import java.text.DateFormat
 
 /**
  * LargePostItem
@@ -37,26 +43,34 @@ import java.util.Locale
  **/
 
 @Composable
-fun LargePostItem(postWithUser: PostWithUser, modifier: Modifier = Modifier) {
+fun LargePostItem(currentUser: User?, postWithUser: PostWithUser, modifier: Modifier = Modifier) {
 	val (post, user) = postWithUser
 	
 	Column(modifier = modifier) {
 		Row(
-			modifier = Modifier.padding(end = 12.dp),
-			verticalAlignment = Alignment.CenterVertically
+			modifier = Modifier
+				.padding(end = 12.dp)
+				.fillMaxWidth(),
+			verticalAlignment = Alignment.CenterVertically,
+			horizontalArrangement = Arrangement.SpaceBetween
 		) {
-			Column {
+			Row (verticalAlignment = Alignment.CenterVertically){
 				ProfileImage(
 					imageUrl = user.imageUrl,
 					width = 48.dp,
 					showAddIcon = false
 				)
-			}
-			Column(
-				modifier = Modifier.padding(start = 12.dp),
-				horizontalAlignment = Alignment.Start
-			) {
+				
 				Text(text = "@${user.username}", modifier = Modifier.padding(bottom = 4.dp))
+			}
+			
+			if (currentUser?.id != postWithUser.user.id) {
+				OutlinedButton(
+					onClick = {},
+					shape = RoundedCornerShape(24)
+				) {
+					Text(text = "Follow")
+				}
 			}
 		}
 		
@@ -129,14 +143,52 @@ fun LargePostItem(postWithUser: PostWithUser, modifier: Modifier = Modifier) {
 				}
 			)
 		}
-		val dateFormat = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss", Locale.getDefault())
+		val dateFormat = DateFormat.getDateInstance().format(post.timestamp)
 		Row(modifier = Modifier.padding(horizontal = 12.dp)) {
 			Text(
-				text = "${dateFormat.format(post.timestamp)}",
+				text = dateFormat,
 				color = MaterialTheme.colorScheme.tertiary,
 				fontSize = 12.sp,
 				fontWeight = FontWeight.Bold
 			)
 		}
+	}
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun LargePostItemPreview() {
+	val firstUser = User(
+		name = "Test",
+		username = "test",
+		imageUrl = null,
+		id = 1,
+		email = "test@gmail.com",
+		password = "123456",
+		bio = "This is my bio."
+	)
+	var secondUser = User(
+		name = "Test",
+		username = "test",
+		imageUrl = null,
+		id = 2,
+		email = "test@gmail.com",
+		password = "123456",
+		bio = "This is my bio."
+	)
+	InstagramCloneTheme {
+		LargePostItem(
+			postWithUser = PostWithUser(
+				post = Post(
+					imageUrl = "",
+					id = 0,
+					userId = 2,
+					description = "This is a description.",
+					timestamp = 1742400286570
+				),
+				user = firstUser
+			),
+			currentUser = secondUser
+		)
 	}
 }

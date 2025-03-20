@@ -92,8 +92,7 @@ fun EditProfileScreen(
 		},
 		onBack = navigateToProfile,
 		onLogout = {
-			viewModel.onLogout()
-			navigateToAuth()
+			viewModel.onLogout(navigateToAuth = navigateToAuth)
 		}
 	)
 	
@@ -149,7 +148,7 @@ fun ProfileContent(
 				ProfileImage(
 					imageUrl = imageUrl,
 					width = 200.dp,
-					showAddIcon = false,
+					showAddIcon = true,
 					onClick = {
 						launcher.launch("image/*")
 					}

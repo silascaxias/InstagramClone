@@ -20,9 +20,9 @@ class PostRepository(
 	
 	fun getPost(postId: Int): Flow<PostWithUser> = database.postDAO().getPost(postId = postId)
 	
+	fun getPostByDescription(description: String): Flow<List<PostWithUser>> = database.postDAO().getPostByDescription(description = description.lowercase())
+	
 	fun userPosts(userId: Int): Flow<List<PostWithUser>> = database.postDAO().getUserPosts(userId = userId)
 	
 	suspend fun insert(post: Post) = database.postDAO().insert(post)
-	
-	suspend fun deleteAllPosts() = database.postDAO().deleteAllPosts()
 }

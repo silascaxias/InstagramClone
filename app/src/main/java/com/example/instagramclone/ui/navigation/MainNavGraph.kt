@@ -5,14 +5,13 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.example.instagramclone.ui.screens.common.BottomNavigationItem
 import com.example.instagramclone.ui.screens.main.EditProfileScreen
-import com.example.instagramclone.viewmodel.InstagramViewModel
 import com.example.instagramclone.ui.screens.main.FeedScreen
 import com.example.instagramclone.ui.screens.main.NewPostScreen
 import com.example.instagramclone.ui.screens.main.PostScreen
 import com.example.instagramclone.ui.screens.main.ProfileScreen
 import com.example.instagramclone.ui.screens.main.SearchScreen
+import com.example.instagramclone.viewmodel.InstagramViewModel
 
 /**
  * MainNavGraph
@@ -40,7 +39,12 @@ fun NavGraphBuilder.mainNavGraph(
 		composable(
 			route = AppScreen.Main.Search.route
 		) {
-			SearchScreen()
+			SearchScreen(
+				viewModel = viewModel,
+				navigateToPost = { postId ->
+					navController.navigate(AppScreen.Main.Post.createRoute(postId))
+				}
+			)
 		}
 		composable(
 			route = AppScreen.Main.Profile.route

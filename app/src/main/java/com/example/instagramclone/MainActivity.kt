@@ -67,8 +67,7 @@ class MainActivity : ComponentActivity() {
 								navigateToDestination = navigateToDestination
 							)
 						}
-					},
-					
+					}
 				){ innerPadding ->
 					RootNavGraph(
 						navHostController = navHostController,

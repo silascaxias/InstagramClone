@@ -1,7 +1,6 @@
 package com.example.instagramclone.ui.screens.common
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
@@ -10,13 +9,21 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,11 +40,11 @@ import com.example.instagramclone.ui.theme.InstagramCloneTheme
  **/
 
 enum class BottomNavigationItem(
-	val route: AppScreen, val filledIcon: Int, val outlineIcon: Int
+	val route: AppScreen, val filledIcon: ImageVector, val outlineIcon: ImageVector
 ) {
-	FEED(AppScreen.Main.Feed, R.drawable.ic_home_filled, R.drawable.ic_home_outlined),
-	SEARCH(AppScreen.Main.Search, R.drawable.ic_search_filled, R.drawable.ic_search_outlined),
-	PROFILE(AppScreen.Main.Profile, R.drawable.ic_profile_filled, R.drawable.ic_profile_outlined),
+	FEED(AppScreen.Main.Feed, Icons.Filled.Home, Icons.Outlined.Home),
+	SEARCH(AppScreen.Main.Search, Icons.Filled.Search, Icons.Outlined.Search),
+	PROFILE(AppScreen.Main.Profile, Icons.Filled.Person, Icons.Outlined.Person),
 }
 
 @Composable
@@ -56,7 +63,7 @@ fun BottomNavigationBar(
 		) {
 			BottomNavigationItem.entries.forEach { item ->
 				Image(
-					painter = painterResource(id = navigationItemIcon(item, selectedItem == item)),
+					painter = rememberVectorPainter(image = navigationItemIcon(item, selectedItem == item)),
 					contentDescription = item.name,
 					modifier = Modifier.Companion
 						.size(40.dp)
@@ -76,7 +83,7 @@ fun BottomNavigationBar(
 }
 
 @Composable
-private fun navigationItemIcon(item: BottomNavigationItem, isSelectedItem: Boolean): Int {
+private fun navigationItemIcon(item: BottomNavigationItem, isSelectedItem: Boolean): ImageVector {
 	return if (isSelectedItem) item.filledIcon else item.outlineIcon
 }
 
