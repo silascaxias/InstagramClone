@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -37,6 +38,7 @@ import com.example.instagramclone.ui.navigation.AppScreen
 import com.example.instagramclone.ui.screens.common.LoadingProgressIndicator
 import com.example.instagramclone.ui.screens.common.PostItem
 import com.example.instagramclone.ui.screens.common.ProfileImage
+import com.example.instagramclone.utils.Utils.Companion.shareLink
 import com.example.instagramclone.viewmodel.InstagramViewModel
 import com.example.instagramclone.viewmodel.getUserPosts
 import com.example.instagramclone.viewmodel.showMessage
@@ -64,7 +66,7 @@ fun ProfileScreen(
                 navigateToNewPost(route)
             }
         }
-
+    val context = LocalContext.current
     val userData = viewModel.currentUser.value
     val isLoading = viewModel.isLoading.value
     val postsWithUsers = viewModel.getUserPosts().collectAsState(emptyList())
@@ -165,7 +167,10 @@ fun ProfileScreen(
                     }
 
                     OutlinedButton(
-                        onClick = { viewModel.showMessage("Not implemented...") },
+                        onClick = {
+                            val url = "https://www.instagram.com/${userData?.username}"
+                            shareLink(context = context, link = url)
+                        },
                         modifier = Modifier.weight(1f),
                         colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
                         elevation = ButtonDefaults.buttonElevation(0.dp),
@@ -231,3 +236,4 @@ fun ProfileScreen(
         LoadingProgressIndicator()
     }
 }
+
