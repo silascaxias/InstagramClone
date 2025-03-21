@@ -3,8 +3,12 @@ package com.example.instagramclone.ui.screens.common
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -37,7 +41,7 @@ fun CommonImage(
 	)
 	if (data.isNullOrEmpty()) {
 		Image(
-			painter = painterResource(id = R.drawable.ic_person),
+			painter = rememberVectorPainter(Icons.Filled.Person),
 			contentDescription = null,
 			modifier = modifier,
 			contentScale = contentScale

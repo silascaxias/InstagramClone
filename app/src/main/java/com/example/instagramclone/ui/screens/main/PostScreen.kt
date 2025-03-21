@@ -30,9 +30,11 @@ import com.example.instagramclone.data.entity.PostWithUser
 import com.example.instagramclone.data.entity.User
 import com.example.instagramclone.ui.screens.common.CommonImage
 import com.example.instagramclone.ui.screens.common.LargePostItem
+import com.example.instagramclone.ui.screens.common.LoadingProgressIndicator
 import com.example.instagramclone.ui.screens.common.ProfileImage
 import com.example.instagramclone.ui.screens.common.TopNavigationBar
 import com.example.instagramclone.viewmodel.InstagramViewModel
+import com.example.instagramclone.viewmodel.deletePost
 import com.example.instagramclone.viewmodel.getPost
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -48,31 +50,39 @@ import java.util.Locale
 
 @Composable
 fun PostScreen(
-	postId: Int,
-	viewModel: InstagramViewModel,
-	navigateToBackScreen: () -> Unit
+    postId: Int,
+    viewModel: InstagramViewModel,
+    navigateToBackScreen: () -> Unit
 ) {
-	val postWithUser = viewModel.getPost(postId = postId).collectAsState(initial = null).value
-	postWithUser?.let {
-		Column {
-			Row(
-				modifier = Modifier
-					.fillMaxWidth()
-					.wrapContentHeight()
-			) {
-				TopNavigationBar(
-					title = "Post",
-					onBackClick = navigateToBackScreen,
-				)
-			}
-			
-			LargePostItem(
-				currentUser = viewModel.currentUser.value,
-				postWithUser = postWithUser,
-				modifier = Modifier
-					.weight(1f)
-					.padding(bottom = 12.dp)
-			)
-		}
-	}
+    val postWithUser = viewModel.getPost(postId = postId).collectAsState(initial = null).value
+    val isLoading = viewModel.isLoading.value
+    postWithUser?.let {
+        Column {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+            ) {
+                TopNavigationBar(
+                    title = "Post",
+                    onBackClick = navigateToBackScreen,
+                )
+            }
+
+            LargePostItem(
+                currentUser = viewModel.currentUser.value,
+                postWithUser = postWithUser,
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(bottom = 12.dp),
+                onDelete = {
+                    viewModel.deletePost(postWithUser.post.id) {
+                        navigateToBackScreen()
+                    }
+                }
+            )
+        }
+    }
+    if (isLoading)
+        LoadingProgressIndicator()
 }

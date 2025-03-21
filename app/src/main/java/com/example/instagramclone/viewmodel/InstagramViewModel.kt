@@ -103,6 +103,16 @@ fun InstagramViewModel.createNewPost(imageUrl: String, description: String, onSu
 	}
 }
 
+fun InstagramViewModel.deletePost(postId: Int, onCompletion: () -> Unit = {}) {
+	isLoading.value = true
+	viewModelScope.launch {
+		postRepository.delete(postId = postId)
+		isLoading.value = false
+	}.invokeOnCompletion {
+		onCompletion()
+	}
+}
+
 fun InstagramViewModel.getUserPosts(): Flow<List<PostWithUser>> =
 	postRepository.userPosts(userId = currentUser.value?.id ?: 1)
 

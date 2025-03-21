@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,6 +21,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -26,6 +29,7 @@ import com.example.instagramclone.R
 import com.example.instagramclone.ui.screens.common.LargePostItem
 import com.example.instagramclone.ui.screens.common.LoadingProgressIndicator
 import com.example.instagramclone.viewmodel.InstagramViewModel
+import com.example.instagramclone.viewmodel.deletePost
 
 /**
  * FeedScreen
@@ -65,7 +69,7 @@ fun FeedScreen(
 				colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
 			)
 			Image(
-				painter = painterResource(id = R.drawable.ic_heart),
+				painter = rememberVectorPainter(Icons.Default.FavoriteBorder),
 				contentDescription = "Like",
 				colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary),
 				modifier = Modifier.size(28.dp)
@@ -77,20 +81,30 @@ fun FeedScreen(
 		) {
 			if (isLoading) {
 				LoadingProgressIndicator()
-			} else if (posts.value.isEmpty()) {
-				Column(
-					horizontalAlignment = Alignment.CenterHorizontally,
-					verticalArrangement = Arrangement.Center
-				) {
-					Text(text = "No posts available")
-				}
-			} else {
+			} else if (posts.value.isNotEmpty()) {
 				posts.value.forEach { postWithUser ->
 					Row {
-						LargePostItem(viewModel.currentUser.value, postWithUser, modifier = Modifier.padding(bottom = 12.dp))
+						LargePostItem(
+							currentUser = viewModel.currentUser.value,
+							postWithUser = postWithUser,
+							modifier = Modifier.padding(bottom = 12.dp),
+							onDelete = {
+								viewModel.deletePost(postWithUser.post.id)
+							}
+						)
 					}
 				}
 			}
+		}
+	}
+
+	if (posts.value.isEmpty()) {
+		Column(
+			horizontalAlignment = Alignment.CenterHorizontally,
+			verticalArrangement = Arrangement.Center,
+			modifier = Modifier.fillMaxSize()
+		) {
+			Text(text = "No posts available.")
 		}
 	}
 }

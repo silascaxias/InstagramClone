@@ -2,6 +2,7 @@ package com.example.instagramclone.data.entity
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 /**
@@ -21,6 +22,9 @@ import androidx.room.PrimaryKey
 			childColumns = ["userId"],
 			onDelete = ForeignKey.CASCADE
 		)
+	],
+	indices = [
+		Index("userId")
 	]
 )
 data class Post(
